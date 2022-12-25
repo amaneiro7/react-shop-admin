@@ -2,9 +2,10 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 
 const endPoints = {
     products: {
-        getproducts: (limit, offset) => `${API}/products?limit=${limit}&offset=${offset}`,
+        getAllProducts: `${API}/products`,
+        getProducts: (limit, offset) => `${API}/products?limit=${limit}&offset=${offset}`,
         addProducts: `${API}/products`,
-        getproduct: (id) => `${API}/products/${id}`,
+        getProduct: (id) => `${API}/products/${id}`,
         updateProducts: (id) => `${API}/products/${id}`,
         deleteProducts: (id) => `${API}/products/${id}`,
     },
