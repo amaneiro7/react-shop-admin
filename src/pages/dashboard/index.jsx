@@ -1,15 +1,31 @@
+import { useAuth } from "@hooks/useAuth";
+import { useRouter } from "next/router";
+
 const people = [
   {
-    name: 'Jane Cooper',
+    name: '',
     title: 'Regional Paradigm Technician',
     department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
+    role: '',
+    email: '',
+    image: '',
   },
 ];
 
 export default function Dashboard() {
+  const auth = useAuth(); 
+  const router = useRouter();
+
+  if (auth.user !== null) {    
+    people[0].name = auth.user.name
+    people[0].role = auth.user.role
+    people[0].email = auth.user.email
+    people[0].image = auth.user.avatar    
+  } else {
+    router.push('/login');
+  }
+
+
   return (
     <>
       <div className="flex flex-col">

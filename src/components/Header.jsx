@@ -1,8 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-//import { BellIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/outline';
 import { BellIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useAuth } from '@hooks/useAuth';
 
 const userData = {
   name: 'Tom Cook',
@@ -25,6 +25,13 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const auth = useAuth();  
+  if (auth.user !== null) {    
+    userData.name = auth.user.name
+    userData.email = auth.user.email
+    userData.imageUrl = auth.user.avatar
+  }
+
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800">

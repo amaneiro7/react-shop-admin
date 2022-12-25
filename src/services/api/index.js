@@ -2,11 +2,15 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 
 const endPoints = {
     products: {
-        products: (limit, offset) => `${API}/products?limit=${limit}&offset=${offset}`,
-        product: (id) => `${API}/products/${id}`,
+        getproducts: (limit, offset) => `${API}/products?limit=${limit}&offset=${offset}`,
+        addProducts: `${API}/products`,
+        getproduct: (id) => `${API}/products/${id}`,
+        updateProducts: (id) => `${API}/products/${id}`,
+        deleteProducts: (id) => `${API}/products/${id}`,
     },
     user: {
-        users: `${API}/users`,
+        getUsers: (limit) => `${API}/users?limit=${limit}`,
+        addUsers: `${API}/users`,
         usersIsAvailable: `${API}/users/is-available`,
     },
     auth: {
@@ -14,14 +18,15 @@ const endPoints = {
         profile: `${API}/auth/profile`,
     },
     categories: {
-        categories: (limit, offset) => `${API}/categories?limit=${limit}&offset=${offset}`,
-        category: (id) => `${API}/categories/${id}`,
-        categoryListProducts: (id) => `${API}/categories/${id}/products`,
+        getCategoriesList: (limit) => `${API}/categories?limit=${limit}`,
+        addCategory: `${API}/categories`,
+        getCategoryInfo: (id) => `${API}/categories/${id}`,
+        updateCategoryInfo: (id) => `${API}/categories/${id}`,
+        getCategoryListProducts: (id) => `${API}/categories/${id}/products`,
     },
     files: {
-        upload: `${API}/files/upload`,
-        filnema: (filename) =>  `${API}/files/upload/${filename}`,
-    }
+        addImage: `${API}/files/upload`,        
+    },
 };
 
 export default endPoints;

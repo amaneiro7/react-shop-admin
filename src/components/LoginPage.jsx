@@ -1,16 +1,31 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
+import { useAuth } from '@hooks/useAuth';
 
 export default function LoginPage() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const auth = useAuth();
+  const router = useRouter();
+  const [ wrongLogin , setWrongLogin ] = useState(false)
   
   const submitHandler = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    console.log(email, password);
+    auth.signIn(email,password)
+      .then(() => {
+        setWrongLogin(false)
+        router.push('/dashboard');
+      })
+      .catch(() => {
+        setWrongLogin(true)
+        setTimeout(() => {
+          setWrongLogin(false)          
+        }, 5000);
+      })
   }
   return (
     <>
@@ -54,6 +69,11 @@ export default function LoginPage() {
                   />
                 </div>
               </div>
+              {wrongLogin &&
+              <div>
+                <p className="ml-2 block text-sm text-red-900">incorrect user or password</p>
+              </div>
+              }
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
