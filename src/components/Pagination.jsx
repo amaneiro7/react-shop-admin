@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
+import Link from 'next/link'
 
 export default function Pagination(page) {
     const offsetInt = (page.offset + page.limit) / page.limit
@@ -41,7 +42,7 @@ export default function Pagination(page) {
                         </a>
                         {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}                        
                         {pageIndex.map((index) => (
-                            <a key={index} href={`#${index}`} aria-current="page" className="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
+                            <a href={`#${index}`} key={index}  aria-current="page" className="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
                                 {index}
                             </a>
                         ))}                        
