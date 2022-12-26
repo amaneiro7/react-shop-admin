@@ -1,14 +1,46 @@
-import { useState } from "react";
-import { CheckIcon } from '@heroicons/react/24/solid';
+import { useState, useEffect } from "react";
+import { CheckIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import Modal from '@common/Modal'
 import FormProducts from '@components/FormProducts'
+import axios from "axios";
+import endPoints from "@services/api";
+import useAlert from "@hooks/useAlert";
+import Alert from "@common/Alert";
+import { deleteProduct } from '@services/api/products';
 
 
-export default function products() {
+export default function Products() {
     const [open, setOpen] = useState(false);
     const [products, setProducts] = useState([])
+    const {alert, setAlert, toggleAlert} = useAlert()
+
+
+    useEffect(() => {
+        async function loadProducts() {
+            const response = await axios.get(endPoints.products.getAllProducts);
+            setProducts(response.data)
+        }
+        try {
+            loadProducts();
+        } catch (error) {
+            console.log(error);
+        }
+    }, [alert]);
+
+    const handleDelete = (id) => {
+        deleteProduct(id).then(() => {
+            setAlert({
+                active: true,
+                message: 'Delete product succesfully',
+                type: 'error',
+                autoClose: true,
+            });
+        });
+    };
+
     return (
         <>
+            <Alert alert={alert} handleClose={toggleAlert} />
             <div className="lg:flex lg:items-center lg:justify-between">
                 <div className="min-w-0 flex-1">
                     <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
@@ -85,9 +117,10 @@ export default function products() {
                                                 </a>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                                    Delete
-                                                </a>
+                                                <XCircleIcon className="flex-shrink-o h-6 w-6 text-gray-400 cursor-pointer" 
+                                                    aria-hidden='true'
+                                                    onClick={() => handleDelete(product.id)}
+                                                />
                                             </td>
                                         </tr>
                                     ))}
@@ -98,7 +131,7 @@ export default function products() {
                 </div>
             </div>
             <Modal open={open} setOpen={setOpen}>
-                <FormProducts />
+                <FormProducts setOpen={setOpen} setAlert={setAlert}/>
             </Modal>
             {/* <Pagination offset={offset} length={length} limit={limit}/> */}
         </>
